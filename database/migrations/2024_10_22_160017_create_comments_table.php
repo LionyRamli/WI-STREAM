@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('profile_picture')->nullable(); 
+            $table->foreignId('video_id')->constrained('videos')->onDelete('cascade');  // Foreign key to videos
+            $table->foreignId('user_id')->constrained('accounts')->onDelete('cascade');  // Foreign key to accounts
+            $table->text('comment_text');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('comments');
     }
 };

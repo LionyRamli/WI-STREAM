@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('profile_picture')->nullable(); 
+            $table->foreignId('user_id')->constrained('accounts')->onDelete('cascade');  // Foreign key to the subscriber
+            $table->foreignId('channel_id')->constrained('accounts')->onDelete('cascade');  // Foreign key to the channel owner        
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('subscriptions');
     }
 };
